@@ -1,28 +1,31 @@
----
-page_type: sample
-products:
-- office-365
-languages:
-- csharp
-title: Microsoft Teams C# Helloworld Sample
-description: Microsoft Teams "Hello world" application for .NET/C#
-extensions:
-  contentType: samples
-  platforms:
-  - CSS
-  createdDate: 10/16/2017 10:02:21 PM
----
+## Introduction
+[Dependency injection](https://en.wikipedia.org/wiki/Dependency_injection) design pattern is widely used in modern applications. It decouples objects to the extent that no client code has to be changed simply because an object it depends on needs to be changed to a different one. It brings you a lot of [benefits](http://tutorials.jenkov.com/dependency-injection/dependency-injection-benefits.html), like reduced dependency, more reusable code, more testable code, etc. However, it was very difficult to use dependency injection in WebForms application before. This is not an issue in .Net Framework 4.7.2 anymore. Dependency injection is natively supported in WebForms applications. 
 
-# Contributing
+This project demonstrates building a dependency injection adapter for the [Unity](https://github.com/unitycontainer/unity) IoC container as a point of reference for other adapter authors. Please note that this implementation is for demonstration purposes only and is not being actively maintained.
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+## How to use
+1. Make sure your web project is targeting .NET Framework 4.7.2. You can download .NET Framework 4.7.2 developer pack from [here](https://www.microsoft.com/net/download/thank-you/net472-developer-pack). Check web.config and targetFramework in httpRuntime section should be 4.7.2.
+```
+  <system.web>
+    <compilation debug="true" targetFramework="4.7.2"/>
+    <httpRuntime targetFramework="4.7.2"/>
+  </system.web>
+```
+2. Install Microsoft.AspNet.WebFormsDependencyInjection.Unity nupkg in your project.
+3. Open Global.asax and register the types in UnityContainer.
+```
+        protected void Application_Start(object sender, EventArgs e)
+        {
+            var container = this.AddUnity();
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+            container.RegisterType<ISomeInterface, SomeImplementation>();
+        }
+```
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+## How to build
+1. Open a [VS developer command prompt](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)
+2. Run build.cmd. This will build Nuget package and run all the unit tests.
+3. All the build artifacts will be under AspNetWebFormsDependencyInjection\bin\Release\ folder.
+
+## How to contribute
+Information on contributing to this repo is in the [Contributing Guide](CONTRIBUTING.md).
